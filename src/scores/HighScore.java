@@ -56,8 +56,10 @@ public class HighScore {
         try {
             csvScores = getCsvScores();
         } catch (IOException e) {
-            System.out.println("Can't get scores from ThingSpeak");
+            System.out.println("Can't get scores from ThingSpeak.");
+            System.out.println("Check your connection and channel number.");
             e.printStackTrace();
+            System.exit(-1);
         }
 
         // We want only interesting things in these lines : the player, and the score
