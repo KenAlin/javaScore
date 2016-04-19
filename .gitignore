@@ -1,5 +1,5 @@
 .idea/
 out/
 
-api_read.txt
-api_write.txt
+/api_write.txt
+/api_read.txt
