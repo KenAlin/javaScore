@@ -13,16 +13,15 @@ public class TestHighScore {
     public TestHighScore() { }
 
     public static void main(String[] args) {
+        // Get scores from ThingSpeak
+        System.out.println("** HighScores : **");
         HighScore hs = new HighScore();
-        try {
-            String[] scores = hs.getScores();
-            for (String s : scores) {
-                System.out.println(s);
-                System.out.println("---");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        String[] scores = hs.getScores();
+        for (String s : scores) {
+            // Display scores
+            System.out.println(s);
         }
+        System.out.println("---");
 
         // Ask for the name
         Scanner in = new Scanner(System.in);
