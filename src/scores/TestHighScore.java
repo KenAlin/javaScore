@@ -9,11 +9,21 @@ import java.util.Scanner;
 public class TestHighScore {
     private static String player = null;
     private static int score;
-    public TestHighScore() {
 
-    }
+    public TestHighScore() { }
 
     public static void main(String[] args) {
+        HighScore hs = new HighScore();
+        try {
+            String[] scores = hs.getScores();
+            for (String s : scores) {
+                System.out.println(s);
+                System.out.println("---");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // Ask for the name
         Scanner in = new Scanner(System.in);
         System.out.print("What's your player name ? ");
@@ -35,8 +45,7 @@ public class TestHighScore {
         int nbScores = 0;
 
         // Open the score file
-        FileInputStream fstream = null;
-        fstream = new FileInputStream("scoreSample.txt");
+        FileInputStream fstream = new FileInputStream("scoreSample.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 
         // How many score in the file ? (1 score/line)
@@ -56,7 +65,7 @@ public class TestHighScore {
             it++;
         }
 
-        // Close the input stream
+        // Close the file
         br.close();
 
         // Select and return a random score among the ones read from the file
