@@ -32,8 +32,9 @@ public class TestHighScore {
         try {
             score = chooseScore();
         } catch (IOException e) {
-            System.out.println("Error when reading score file !!");
+            System.out.println("Error when reading score file. The file 'scoreSample.txt' must be present.");
             e.printStackTrace();
+            System.exit(-1);
         }
 
         // Print the score
