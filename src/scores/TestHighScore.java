@@ -38,6 +38,20 @@ public class TestHighScore {
 
         // Print the score
         System.out.println("Player " + player + " earned " + score + " points !");
+
+        // Does this score deserve to appear in the ladder ?
+        if (score > 0 && HighScore.getLowestTen() <= score) {
+            // Yes !! :D
+            System.out.println("Congratulations, your score is in the Top Ten ! Sending to the server ...");
+            try {
+                if (player == null || player == "null") player = "Anonymous";
+                HighScore.sendScore(player, score);
+                System.out.println("Score sent to the server.");
+            } catch (IOException e) {
+                System.out.println("Error when trying to send your score to the server.");
+                e.printStackTrace();
+            }
+        }
     }
 
     public static int chooseScore() throws IOException {

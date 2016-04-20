@@ -13,14 +13,11 @@ import java.util.List;
  * V1 : We want to get the scores from ThingSpeak. API key provided in txt files.
  */
 public class HighScore {
-    private static int lowestTen = 0;
 
     public static int getLowestTen() {
-        return lowestTen;
-    }
-
-    public static void setLowestTen(int lowestTen) {
-        HighScore.lowestTen = lowestTen;
+        BestPlayer[] bests = topTen();
+        if (bests.length < 10) return 0;
+        else return bests[bests.length-1].getScore();
     }
 
     public static BestPlayer[] topTen() {
@@ -31,11 +28,9 @@ public class HighScore {
             for (int i = 0 ; i < 10 ; i++) {
                 resp[i] = bests[i];
             }
-            setLowestTen(bests[9].getScore());
             return resp;
         }
         else {
-            setLowestTen(bests[bests.length-1].getScore());
             return bests;
         }
 
@@ -149,10 +144,10 @@ public class HighScore {
 
         // A key ? But which key ?
         if (opt == 'r') {
-            file = "api_write.txt";
+            file = "api_read.txt";
         }
         else if (opt == 'w') {
-            file = "api_read.txt";
+            file = "api_write.txt";
         }
         else if (opt == 'c') {
             file = "api_channel.txt";
@@ -172,5 +167,9 @@ public class HighScore {
 
         // Return the key
         return key;
+    }
+
+    public static void sendScore(String player, int score) throws IOException {
+        Jsoup.connect("https://api.thingspeak.com/update?api_key="+ getKey('w') +"&field1="+ score +"&field2="+ player).get();
     }
 }
