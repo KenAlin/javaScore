@@ -8,50 +8,62 @@ import java.util.Scanner;
  */
 public class TestHighScore {
     private static String player = null;
-    private static int score;
 
     public TestHighScore() { }
 
     public static void main(String[] args) {
-        // Get scores from ThingSpeak
-        System.out.println("** HighScores : **");
-        BestPlayer[] bestsP = HighScore.topTen();
-        for (BestPlayer pl : bestsP) {
-            // Display scores
-            System.out.println(pl.getPlayer() + " : " + pl.getScore() + " points");
-        }
-        System.out.println("-- Play ! --");
-
         // Ask for the name
         Scanner in = new Scanner(System.in);
         System.out.print("What's your player name ? ");
         player = in.nextLine();
+        play();
+    }
 
-        // Choose a score
-        try {
-            score = chooseScore();
-        } catch (IOException e) {
-            System.out.println("Error when reading score file. The file 'scoreSample.txt' must be present.");
-            e.printStackTrace();
-            System.exit(-1);
-        }
-
-        // Print the score
-        System.out.println("Player " + player + " earned " + score + " points !");
-
-        // Does this score deserve to appear in the ladder ?
-        if (score > 0 && HighScore.getLowestTen() <= score) {
-            // Yes !! :D
-            System.out.println("Congratulations, your score is in the Top Ten ! Sending to the server ...");
-            try {
-                if (player == null || player == "null") player = "Anonymous";
-                HighScore.sendScore(player, score);
-                System.out.println("Score sent to the server.");
-            } catch (IOException e) {
-                System.out.println("Error when trying to send your score to the server.");
-                e.printStackTrace();
+    private static void play() {
+        do {
+            // Get scores from ThingSpeak
+            System.out.println("** Top scores : **");
+            BestPlayer[] bestsP = HighScore.topTen();
+            for (BestPlayer pl : bestsP) {
+                // Display scores
+                System.out.println(pl.getPlayer() + " : " + pl.getScore() + " points");
             }
-        }
+            System.out.println("-- Play ! --");
+
+            // Choose a score
+            int score = -1;
+            try {
+                score = chooseScore();
+            } catch (IOException e) {
+                System.out.println("Error when reading score file. The file 'scoreSample.txt' must be present.");
+                e.printStackTrace();
+                System.exit(-1);
+            }
+
+            // Print the score
+            System.out.println("Player " + player + " earned " + score + " points !");
+
+            // Does this score deserve to appear in the ladder ?
+            if (score > 0 && HighScore.getLowestTen() <= score) {
+                // Yes !! :D
+                System.out.println("Congratulations, your score is in the Top Ten ! Sending to the server ...");
+                try {
+                    if (player == null || player == "null") player = "Anonymous";
+                    HighScore.sendScore(player, score);
+                    System.out.println("Score sent to the server.");
+                } catch (IOException e) {
+                    System.out.println("Error when trying to send your score to the server.");
+                    e.printStackTrace();
+                }
+            }
+        } while(continuePlay());
+
+    }
+
+    public static boolean continuePlay() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Type '0' to stop playing.");
+        return !in.nextLine().equals("0");
     }
 
     public static int chooseScore() throws IOException {
