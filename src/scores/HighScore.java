@@ -14,11 +14,11 @@ import java.util.List;
  */
 public class HighScore {
 
-    /**
+    /** Get every scores in CSV format - that's here where
      * @return An unsorted list of scores, in CSV format
      * @throws IOException
      */
-    public String[] getCsvScores() throws IOException {
+    private String[] getCsvScores() throws IOException {
         // Get HTML stream
         String html = Jsoup.connect("https://api.thingspeak.com/channels/"+ getKey('c') +"/feed.csv").get().outputSettings(new Document.OutputSettings().prettyPrint(false)).html();
         String[] feed = html.split(System.getProperty("line.separator"))[0].split("\\r?\\n");
@@ -46,8 +46,8 @@ public class HighScore {
         return scores;
     }
 
-    /**
-     * @return An unsorted list of scores
+    /** Return every scores from ThingSpeak formatted "{player} : {points} points"
+     * @return An unsorted list of scores (String[] format)
      * @throws IOException
      */
     public String[] getScores() {

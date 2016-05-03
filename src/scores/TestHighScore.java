@@ -12,6 +12,9 @@ public class TestHighScore {
 
     public TestHighScore() { }
 
+    /** The main() function - will be called at launch. The magic happens here.
+     * @param args
+     */
     public static void main(String[] args) {
         // Get scores from ThingSpeak
         System.out.println("** HighScores : **");
@@ -41,6 +44,10 @@ public class TestHighScore {
         System.out.println("Player " + player + " earned " + score + " points !");
     }
 
+    /**
+     * @return Will choose a score from the "scoreSample.txt" file
+     * @throws IOException
+     */
     public static int chooseScore() throws IOException {
         int nbScores = 0;
 
